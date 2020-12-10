@@ -24,7 +24,7 @@ class TwitterService:
                 next_max_id = self.__get_max_id(tweets_fetched)
                 for status in tweets_fetched["statuses"]:
                     if len(result) < total:
-                        result.append(status["text"])
+                        result.append({"text": status["text"], "keyword": keyword})
                     else:
                         break
             print(f"Fetched {len(result)} tweets for the term {keyword}")

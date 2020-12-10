@@ -1,8 +1,9 @@
 import re
-from nltk.tokenize import word_tokenize
 from string import punctuation
+from typing import List
+
 from nltk.corpus import stopwords
-from typing import List, Tuple
+from nltk.tokenize import word_tokenize
 
 URL = "[URL]"
 AT_USER = "[AT_USER]"

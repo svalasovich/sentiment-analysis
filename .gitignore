@@ -1,4 +1,4 @@
 jupyter/
 orc-path
 credentials_twitter.json
-.idea
+*.pickle

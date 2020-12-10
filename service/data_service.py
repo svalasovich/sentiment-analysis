@@ -1,5 +1,6 @@
 import csv
 import json
+import pickle
 
 
 class FileService:
@@ -25,3 +26,13 @@ class JsonService:
         with open(filename) as json_file:
             data = json.load(json_file)
             return data
+
+class PickleService:
+
+    def save_pickle(self, filename, obj):
+        with open(filename, 'wb') as file:
+            pickle.dump(obj,file)
+
+    def read_pickle(self, filename):
+        with open(filename, "rb") as file:
+            return pickle.load(file)

@@ -13,6 +13,7 @@ class SentimentAnalysisService:
         nltk.download("stopwords")
         self.__logger = logging.getLogger('sentiment_analysis_service.SentimentAnalysisService')
         self.__file_service = data_service.FileService()
+        self.__pickle_service = data_service.PickleService()
         self.__preprocessor = preprocessor_service.PreProcessorService()
 
     def build_vocabulary(self, data: List[List[Any]]):
@@ -44,9 +45,18 @@ class SentimentAnalysisService:
 
         return features
 
-    def predict(self, text):
-        #if self.__naive_bayes_classifier is None:
-        #    raise RuntimeWarning("SentimentAnalysisService isn't trained")
+    def prepare_model(self, path_vocabulary = "training_dataset.csv", model_path="model.pickle"):
+        try:
+            self.__naive_bayes_classifier = self.__pickle_service.read_pickle(model_path)
+            self.__logger.info(f"Model loaded from {model_path}")
+        except Exception as exc:
+            data = self.__file_service.read_csv_file(path_vocabulary)
+            data = list(map(lambda row: [row[-1], int(row[0])], data))
+            self.build_vocabulary(data)
+            self.train(data)
+            self.__pickle_service.save_pickle(model_path, self.__naive_bayes_classifier)
+            self.__logger.info(f"Model saved to {model_path}")
 
-        #return self.__naive_bayes_classifier.classify(text)
-        return 1
+    @property
+    def model(self):
+        return self.__naive_bayes_classifier
