@@ -2,3 +2,4 @@ jupyter/
 orc-path
 credentials_twitter.json
 *.pickle
+__pycache__
